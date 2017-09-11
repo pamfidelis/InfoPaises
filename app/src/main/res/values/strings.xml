@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">GeoData</string>
+
+    <string name="btn_busca">Listar</string>
+
+    <string name="hintPais">Digite o nome do País</string>
+
+    <string name="btn_voltar">Voltar</string>
+</resources>
