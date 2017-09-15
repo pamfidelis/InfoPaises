@@ -1,12 +1,15 @@
 package home.pam.geodata;
 
+import java.io.Serializable;
+import java.text.Collator;
 import java.util.ArrayList;
 
 /**
  * Created by Pamela on 10/09/2017.
+ * RA: 81523345
  */
 
-public class Pais {
+public class Pais implements Serializable, Comparable {
 
     private String nome;
     private String codigo3;
@@ -211,45 +214,27 @@ public class Pais {
                 '}';
     }
 
-    public static ArrayList<String> getPaises(){
-        ArrayList<String> paises = new ArrayList<>();
-
-        paises.add("Brasil");
-        paises.add("Argentina");
-        paises.add("EUA");
-        paises.add("Japão");
-        paises.add("Egito");
-        paises.add("Espanha");
-        paises.add("Venezuela");
-        paises.add("Ingleterra");
-        paises.add("Alemanha");
-        paises.add("Itália");
-        paises.add("Costa Rica");
-        paises.add("Luxemburgo");
-        paises.add("Peru");
-        paises.add("Suíça");
-        paises.add("Holanda");
-
-        return paises;
-    }
-
-    public static ArrayList<String> buscarPais (String chave){
-        if(chave.equals("")){
-            return getPaises();
-        }else {
-            ArrayList<String> lista_pais = new ArrayList<>();
-
-            for (String nome : getPaises()) {
-                if (nome.toLowerCase().startsWith(chave.toLowerCase())) {
-                    lista_pais.add(nome);
-                }
-            }
-
-            if(lista_pais.size() != 0){
-                return lista_pais;
-            }else{
-                return getPaises();
-            }
+    @Override
+    public int compareTo(Object o) {
+        if (o == null || o.getClass() != getClass()) {
+            return 0;
+        } else {
+            /* java.text.Collator API 1.5
+             * A classe Collator executa comparacao de sequencia de caracteres sensivel a localidade.
+    	     * Voce usa essa classe para criar rotinas de busca e classificacao de texto em linguagem
+    	     * natural.
+    	     * Referencias:
+    	     * https://docs.oracle.com/javase/7/docs/api/java/text/Collator.html
+    	     * http://stackoverflow.com/questions/12889760/sort-list-of-strings-with-localization
+    	     * */
+            Pais pais = (Pais) o;
+            // Collator e uma classe abstrata. Utilize o seu factory para instanciar.
+            Collator c = Collator.getInstance();
+            // A atribuicao de pontos fortes aos recursos de linguagem depende da regiao.
+            c.setStrength(Collator.PRIMARY);
+            return c.compare(this.nome, pais.getNome());
+            //usar o compareTo nao ordena corretamente caracteres acentuados
+            //return getNome().compareTo(pais.getNome());
         }
     }
 }

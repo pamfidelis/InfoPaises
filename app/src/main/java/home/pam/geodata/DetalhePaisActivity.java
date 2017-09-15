@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 /**
  * Created by Pamela on 10/09/2017.
+ * RA: 81523345
  */
 public class DetalhePaisActivity extends Activity {
 
@@ -21,13 +22,10 @@ public class DetalhePaisActivity extends Activity {
 
         Intent intent = getIntent();
 
-        String nome_pais = intent.getStringExtra("id");
+        Pais pais = (Pais)intent.getSerializableExtra("id");
 
         txtDetalhe = (TextView) findViewById(R.id.txtDetalhe);
-        txtDetalhe.setText(nome_pais);
-    }
+        txtDetalhe.setText(pais.toString());
 
-    public void voltar (){
-        this.finish();
     }
 }

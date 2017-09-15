@@ -4,19 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/borda"
+    android:orientation="horizontal"
     tools:context="home.pam.geodata.MainActivity">
 
-    <EditText
-        android:id="@+id/txtPais"
-        android:layout_width="0dp"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/hintPais"
-        android:layout_weight="1"/>
+        android:text="@string/hintPais"/>
+
+    <Spinner
+        android:id="@+id/spinner_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/continentes">
+
+    </Spinner>
 
     <Button
         android:id="@+id/btn_busca"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_busca"/>
+        android:text="@string/btn_busca" />
 
 </LinearLayout>

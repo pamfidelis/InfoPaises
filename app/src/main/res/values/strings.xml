@@ -3,7 +3,16 @@
 
     <string name="btn_busca">Listar</string>
 
-    <string name="hintPais">Digite o nome do País</string>
+    <string name="hintPais">Continentes:</string>
+
+    <string-array name="continentes">
+        <item>Todos</item>
+        <item>Africa</item>
+        <item>Americas</item>
+        <item>Asia</item>
+        <item>Europe</item>
+        <item>Oceania</item>
+    </string-array>
 
     <string name="btn_voltar">Voltar</string>
 </resources>

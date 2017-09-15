@@ -11,14 +11,17 @@ import java.util.ArrayList;
 
 /**
  * Created by Pamela on 10/09/2017.
+ * RA: 81523345
  */
 
 public class ListaPaisesActivity extends Activity {
 
+    String continente;
     ListView listView;
     ArrayAdapter<String> adapter;
-    ArrayList<String> lista;
-    Pais pais = new Pais();
+    ArrayList<String> nomes;
+    ArrayList<Pais> lista;
+    PaisDAO paisDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +29,15 @@ public class ListaPaisesActivity extends Activity {
         setContentView(R.layout.activity_lista_paises);
 
         Intent intent = getIntent();
-
-        String nome_pais = intent.getStringExtra("pais");
+        continente = intent.getStringExtra("continente");
 
         listView = (ListView) findViewById(R.id.lista_paises);
 
-        lista = pais.buscarPais(nome_pais);
+        lista = paisDAO.listarPaises(continente);
+        nomes = paisDAO.listarNomes(lista);
 
         adapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_list_item_1, lista);
+                (this, android.R.layout.simple_list_item_1, nomes);
 
         listView.setAdapter(adapter);
 
