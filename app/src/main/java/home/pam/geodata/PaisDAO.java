@@ -13,7 +13,7 @@ public class PaisDAO {
     public PaisDAO() {
     }
 
-    public static ArrayList<String> listarNomes(ArrayList<Pais> paises){
+    public static ArrayList<String> listarNomes(Pais[] paises){
         ArrayList<String> nomes = new ArrayList<>();
         for (Pais pais : paises) {
             nomes.add(pais.getNome());
@@ -21,7 +21,7 @@ public class PaisDAO {
         return nomes;
     }
 
-    public static ArrayList<Pais> listarPaises(String continente) {
+    public static Pais[] listarPaises(String continente) {
         Pais[] lista;
         ArrayList<Pais> paises = new ArrayList<>();
         //carrega somente os paises da regiao escolhida
@@ -35,12 +35,17 @@ public class PaisDAO {
         //ordena baseado no compareTo sobrescrito na classe Pais
         //para funcionar, a classe pais precisa implementar a interface Comparable
         Arrays.sort(lista);
-        //transforma de novo em ArrayList
+
+        /*
+        transforma de novo em ArrayList
         paises = new ArrayList<>();
         for(int i = 0; i < lista.length; i++) {
             paises.add(lista[i]);
         }
         return paises;
+        */
+
+        return lista;
     }
 
     public static ArrayList<Pais> listarTodosPaises(){

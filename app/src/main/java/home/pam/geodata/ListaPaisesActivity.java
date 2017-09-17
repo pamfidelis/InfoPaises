@@ -18,10 +18,10 @@ public class ListaPaisesActivity extends Activity {
 
     String continente;
     ListView listView;
-    ArrayAdapter<String> adapter;
     ArrayList<String> nomes;
-    ArrayList<Pais> lista;
+    Pais[] lista;
     PaisDAO paisDAO;
+    PaisesAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +36,7 @@ public class ListaPaisesActivity extends Activity {
         lista = paisDAO.listarPaises(continente);
         nomes = paisDAO.listarNomes(lista);
 
-        adapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_list_item_1, nomes);
+        adapter = new PaisesAdapter(lista, this);
 
         listView.setAdapter(adapter);
 
@@ -46,7 +45,7 @@ public class ListaPaisesActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Intent intent = new Intent(getApplicationContext(), DetalhePaisActivity.class);
-                intent.putExtra("id", lista.get(position));
+                intent.putExtra("id", lista[position]);
 
                 startActivity(intent);
             }
