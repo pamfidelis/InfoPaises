@@ -18,7 +18,7 @@
         android:layout_alignParentRight="true"/>
 
     <TextView
-        android:id="@+id/txt_detalhe"
+        android:id="@+id/detalhe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/txt_nome_pais"
