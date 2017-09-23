@@ -6,13 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
+
+import java.util.Hashtable;
 
 /**
  * Created by Pamela on 16/09/2017.
  */
 
-public class PaisesAdapter extends BaseAdapter {
+public class PaisesAdapter extends BaseAdapter implements SectionIndexer {
 
     private Pais[] paises;
     private PaisDAO dao;
@@ -74,5 +77,20 @@ public class PaisesAdapter extends BaseAdapter {
         viewHolder.getBandeira().setImageDrawable(drawable);
 
         return view;
+    }
+
+    @Override
+    public Object[] getSections() {
+        return new Object[0];
+    }
+
+    @Override
+    public int getPositionForSection(int sectionIndex) {
+        return 0;
+    }
+
+    @Override
+    public int getSectionForPosition(int position) {
+        return 0;
     }
 }
