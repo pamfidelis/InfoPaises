@@ -20,10 +20,16 @@ public class PaisesAdapter extends BaseAdapter implements SectionIndexer {
     private Pais[] paises;
     private PaisDAO dao;
     private Activity activity;
+    Object[] sectionHeaders;
+    Hashtable<Integer, Integer> positionForSectionMap;
+    Hashtable<Integer, Integer> sectionForPositionMap;
 
     public PaisesAdapter(Pais[] paises, Activity activity) {
         this.paises = paises;
         this.activity = activity;
+        sectionHeaders = SectionIndexBuilder.buildSectionHeaders(paises);
+        positionForSectionMap = SectionIndexBuilder.buildPositionForSectionMap(paises);
+        sectionForPositionMap = SectionIndexBuilder.buildSectionForPositionMap(paises);
     }
 
     /* Conta quantas linhas tem */
@@ -70,7 +76,7 @@ public class PaisesAdapter extends BaseAdapter implements SectionIndexer {
         viewHolder.getNome().setText(paises[position].getNome());
         viewHolder.getDetalhe().setText(detalhe);
 
-        Drawable drawable =  Util.getDrawable(activity, "ic_" + paises[position].getCodigo3().toLowerCase());
+        Drawable drawable = Util.getDrawable(activity, paises[position].getCodigo3().toLowerCase());
         if(drawable == null){
             drawable = activity.getDrawable(R.drawable.pirata);
         }

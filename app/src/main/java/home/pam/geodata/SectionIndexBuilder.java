@@ -10,31 +10,22 @@ import java.util.TreeSet;
  */
 
 public class SectionIndexBuilder {
-
-    //Cria um array de cabeçalhos de seção, dados devem estar ordenadors por nome
-
-    public static Object[] builderSectionHeaders(Pais[] paises){
-
+    //cria um array de cabeçalhos de seção; países devem estar ordenados por nome
+    public static Object[] buildSectionHeaders(Pais[] paises){
         ArrayList<String> resultado = new ArrayList<>();
-
-        // Ordena (tree) e impede que elementos se repetem (set)
         TreeSet<String> usados = new TreeSet<>();
-
-        for(Pais pais : paises){
+        for(Pais pais:paises){
             String letra = pais.getNome().substring(0,1);
-            if (!usados.contains(letra)){
+            if((!usados.contains(letra))){
                 resultado.add(letra);
             }
             usados.add(letra);
         }
         return resultado.toArray(new Object[0]);
     }
-
-
-    // cria um mapa para responder posição ---> seção dedados ordenados pelo nome
-    public static Hashtable<Integer, Integer> builderSectionPositionMap(Pais [] paises){
+    //cria uma mapa para responder: posicao --> secao de dados ordenados pelo nome
+    public static Hashtable<Integer, Integer> buildSectionForPositionMap(Pais[] paises){
         Hashtable<Integer, Integer> resultados = new Hashtable<>();
-
         TreeSet<String> usados = new TreeSet<>();
 
         int secao = -1;
@@ -51,10 +42,9 @@ public class SectionIndexBuilder {
         return resultados;
     }
 
-    // cria um mapa para responder posição ---> seção dedados ordenados pelo nome
-    public static Hashtable<Integer, Integer> builderPositionSectionMap(Pais [] paises){
+    //cria uma mapa para responder: secao --> posicao de dados ordenados pelo nome
+    public static Hashtable<Integer, Integer> buildPositionForSectionMap(Pais[] paises){
         Hashtable<Integer, Integer> resultados = new Hashtable<>();
-
         TreeSet<String> usados = new TreeSet<>();
 
         int secao = -1;
