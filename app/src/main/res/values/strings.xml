@@ -1,10 +1,7 @@
 <resources>
     <string name="app_name">GeoData</string>
-
     <string name="btn_busca">Listar</string>
-
-    <string name="hintPais">Continentes:</string>
-
+    <string name="lblContinente">Continente: </string>
     <string-array name="continentes">
         <item>Todos</item>
         <item>Africa</item>
@@ -13,6 +10,21 @@
         <item>Europe</item>
         <item>Oceania</item>
     </string-array>
+    <string name="lbl_codigo3">Codigo Alfa 3: </string>
+    <string name="lbl_capital">Capital: </string>
+    <string name="lbl_regiao">Região: </string>
+    <string name="lbl_subregiao">Subregião: </string>
+    <string name="lbl_demonimo">Demônimo: </string>
+    <string name="lbl_populacao">População: </string>
+    <string name="lbl_area">Área: </string>
+    <string name="lbl_gini">Gini: </string>
+    <string name="lbl_latitude">Latitude: </string>
+    <string name="lbl_longitude">Longitude: </string>
+    <string name="lbl_fusos">Fusos: </string>
+    <string name="lbl_idiomas">Idiomas: </string>
+    <string name="lbl_dominios">Dominios: </string>
+    <string name="lbl_moeda">Moeda: </string>
+    <string name="lbl_fronteiras">Fronteiras: </string>
 
-    <string name="btn_voltar">Voltar</string>
+    <string name="msg_rede">Rede inativa. Usando armazenamento local.</string>
 </resources>

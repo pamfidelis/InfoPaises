@@ -16,11 +16,9 @@ import java.util.ArrayList;
 
 public class ListaPaisesActivity extends Activity {
 
-    String continente;
+    public static final  String PAIS = "home.pam.geodata.pais";
     ListView listView;
-    ArrayList<String> nomes;
-    Pais[] lista;
-    PaisDAO paisDAO;
+    Pais[] paises;
     PaisesAdapter adapter;
 
     @Override
@@ -29,15 +27,12 @@ public class ListaPaisesActivity extends Activity {
         setContentView(R.layout.activity_lista_paises);
 
         Intent intent = getIntent();
-        continente = intent.getStringExtra("continente");
+
+        paises = (Pais[]) intent.getSerializableExtra(MainActivity.PAISES);
+
+        adapter = new PaisesAdapter(paises, this);
 
         listView = (ListView) findViewById(R.id.lista_paises);
-
-        lista = paisDAO.listarPaises(continente);
-        nomes = paisDAO.listarNomes(lista);
-
-        adapter = new PaisesAdapter(lista, this);
-
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -45,7 +40,7 @@ public class ListaPaisesActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Intent intent = new Intent(getApplicationContext(), DetalhePaisActivity.class);
-                intent.putExtra("id", lista[position]);
+                intent.putExtra(PAIS, paises[position]);
 
                 startActivity(intent);
             }

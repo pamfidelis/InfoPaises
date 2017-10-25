@@ -4,4 +4,5 @@
     <dimen name="texto">20dp</dimen>
     <dimen name="margem_texto">10dp</dimen>
     <dimen name="size_flag">50dp</dimen>
+    <dimen name="pad_left_label">10dp</dimen>
 </resources>
