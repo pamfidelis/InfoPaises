@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,6 @@ import java.util.ArrayList;
  */
 
 public class PaisesDb {
-
     PaisesDbHelper dbHelper;
 
     public PaisesDb(Context contexto){
@@ -20,60 +20,61 @@ public class PaisesDb {
     }
 
     public void inserirPaises(Pais[] paises){
-        // Abre o banco para escrita
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        //Melhorar o código
+        /*
+         * melhorar o codigo verificando a regiao que se quer inserir
+         * e as regioes existentes na tabela antes de decidir o que
+         * deletar
+         */
         db.delete(PaisesContract.PaisEntry.TABLE_NAME, null, null);
 
-        for (Pais pais:paises) {
-            //Campo e valor da tabela
+        for(Pais pais:paises){
             ContentValues values = new ContentValues();
+            values.put(PaisesContract.PaisEntry.COLUMN_NAME_NOME, pais.getNome());
+            values.put(PaisesContract.PaisEntry.COLUMN_NAME_REGIAO, pais.getRegiao());
+           // values.put(PaisesContract.PaisEntry.COLUMN_NAME_SUBREGIAO, pais.getSubRegiao());
+            values.put(PaisesContract.PaisEntry.COLUMN_NAME_CAPITAL, pais.getCapital());
+            values.put(PaisesContract.PaisEntry.COLUMN_NAME_BANDEIRA, pais.getBandeira());
+            values.put(PaisesContract.PaisEntry.COLUMN_NAME_CODIGO3, pais.getCodigo3());
+            //values.put(PaisesContract.PaisEntry.COLUMN_NAME_DEMONIMO, pais.getDemonimo());
 
-            values.put(PaisesContract.PaisEntry.COLUMN_NOME, pais.getNome());
-            values.put(PaisesContract.PaisEntry.COLUMN_REGIAO, pais.getRegiao());
-            values.put(PaisesContract.PaisEntry.COLUMN_CAPITAL, pais.getCapital());
-            values.put(PaisesContract.PaisEntry.COLUMN_BANDEIRA, pais.getBandeira());
-            values.put(PaisesContract.PaisEntry.COLUMN_CODIGO3, pais.getCodigo3());
-
-            // Parâmetros: Nome da tabela, caso não tenha valor, valores
             db.insert(PaisesContract.PaisEntry.TABLE_NAME, null, values);
         }
     }
 
     public Pais[] selecionarPaises(){
-        // Leitura
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
         ArrayList<Pais> paises = new ArrayList<>();
 
-        String[] colunas = {
-                PaisesContract.PaisEntry.COLUMN_NOME,
-                PaisesContract.PaisEntry.COLUMN_REGIAO,
-                PaisesContract.PaisEntry.COLUMN_CAPITAL,
-                PaisesContract.PaisEntry.COLUMN_BANDEIRA,
-                PaisesContract.PaisEntry.COLUMN_CODIGO3};
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        String ordem = PaisesContract.PaisEntry.COLUMN_NOME;
+        String[] colunas = { PaisesContract.PaisEntry.COLUMN_NAME_NOME,
+                PaisesContract.PaisEntry.COLUMN_NAME_REGIAO,
+              //  PaisesContract.PaisEntry.COLUMN_NAME_SUBREGIAO,
+                PaisesContract.PaisEntry.COLUMN_NAME_CAPITAL,
+                PaisesContract.PaisEntry.COLUMN_NAME_BANDEIRA,
+                PaisesContract.PaisEntry.COLUMN_NAME_CODIGO3};
+                //PaisesContract.PaisEntry.COLUMN_NAME_DEMONIMO};
+        String ordem = PaisesContract.PaisEntry.COLUMN_NAME_NOME;
 
-        //Parâmetros: nome da tabela, colunas, where, valor do where, orderby, groupby, having
-        Cursor c = db.query(PaisesContract.PaisEntry.TABLE_NAME, colunas, null, null, ordem, null,null);
-
-        while (c.moveToNext()){
+        Cursor c = db.query(PaisesContract.PaisEntry.TABLE_NAME, colunas, null, null,
+                ordem, null, null);
+        while(c.moveToNext()) {
             Pais pais = new Pais();
-            pais.setNome(c.getString(c.getColumnIndex(PaisesContract.PaisEntry.COLUMN_NOME)));
-            pais.setRegiao(c.getString(c.getColumnIndex(PaisesContract.PaisEntry.COLUMN_REGIAO)));
-            pais.setCapital(c.getString(c.getColumnIndex(PaisesContract.PaisEntry.COLUMN_CAPITAL)));
-            pais.setBandeira(c.getString(c.getColumnIndex(PaisesContract.PaisEntry.COLUMN_BANDEIRA)));
-            pais.setCodigo3(c.getString(c.getColumnIndex(PaisesContract.PaisEntry.COLUMN_CODIGO3)));
+            pais.setNome(c.getString(c.getColumnIndex(PaisesContract.PaisEntry.COLUMN_NAME_NOME)));
+            pais.setRegiao(c.getString(c.getColumnIndex(PaisesContract.PaisEntry.COLUMN_NAME_REGIAO)));
+            //pais.setRegiao(c.getString(c.getColumnIndex(PaisesContract.PaisEntry.COLUMN_NAME_SUBREGIAO)));
+            pais.setCapital(c.getString(c.getColumnIndex(PaisesContract.PaisEntry.COLUMN_NAME_CAPITAL)));
+            pais.setBandeira(c.getString(c.getColumnIndex(PaisesContract.PaisEntry.COLUMN_NAME_BANDEIRA)));
+            pais.setCodigo3(c.getString(c.getColumnIndex(PaisesContract.PaisEntry.COLUMN_NAME_CODIGO3)));
+            //pais.setDemonimo(c.getString(c.getColumnIndex(PaisesContract.PaisEntry.COLUMN_NAME_DEMONIMO)));
 
             paises.add(pais);
         }
         c.close();
-
-        if (paises.size() > 0){
+        if(paises.size()> 0) {
             return paises.toArray(new Pais[0]);
-        }else {
+        } else {
             return new Pais[0];
         }
     }

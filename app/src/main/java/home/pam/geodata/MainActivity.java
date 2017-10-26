@@ -1,8 +1,11 @@
 package home.pam.geodata;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -29,16 +32,18 @@ public class MainActivity extends Activity {
     Intent intent;
     String continente = "all";
 
+    Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        context = this;
+
         spinner = (Spinner) findViewById(R.id.spinner_id);
         spinner.setOnItemSelectedListener(new RegiaoSelecionada());
-
-        btn_buscar = (Button) findViewById(R.id.btn_busca);
 
         timer = (ProgressBar)findViewById(R.id.timer);
         timer.setVisibility(View.INVISIBLE);
@@ -54,6 +59,9 @@ public class MainActivity extends Activity {
                         public void run() {
                             try {
                                 paises = InfoPaisNetwork.buscarPaises(URL, continente);
+
+                                PaisesDb db = new PaisesDb(context);
+                                db.inserirPaises(paises);
                                 runOnUiThread(new Runnable() {
                                                   @Override
                                                   public void run() {
@@ -69,7 +77,10 @@ public class MainActivity extends Activity {
                         }
                     }).start();
         } else {
-            Toast.makeText(this, "Rede inativa.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Rede inativa.",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("banco", "Erro internet");
+            new CarregarPaisesDoBanco().execute("pais");
         }
     }
 
@@ -87,6 +98,20 @@ public class MainActivity extends Activity {
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
 
+        }
+    }
+    private class CarregarPaisesDoBanco extends AsyncTask<String, Void, Pais[]> {
+        @Override
+        protected Pais[] doInBackground(String... params) {
+            Log.d("banco", "Main Carregar pais");
+            PaisesDb db = new PaisesDb(context);
+            Pais[] paises = db.selecionarPaises();
+            return paises;
+        }
+
+        public void onPostExecute(Pais[] paises){
+            intent.putExtra(PAISES, paises);
+            startActivity(intent);
         }
     }
 }

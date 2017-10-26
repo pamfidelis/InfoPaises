@@ -3,30 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/borda"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context="home.pam.geodata.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/lblContinente"/>
+        android:orientation="horizontal">
 
-    <Spinner
-        android:id="@+id/spinner_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:entries="@array/continentes">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_regiao" />
 
-    </Spinner>
+        <Spinner
+            android:id="@+id/spinner_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:entries="@array/continentes" />
 
-    <Button
-        android:id="@+id/btn_busca"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="listarPaises"
-        android:text="@string/btn_busca" />
-
+        <Button
+            android:id="@+id/btn_busca"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="listarPaises"
+            android:text="@string/btn_busca" />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,5 +43,4 @@
             android:paddingTop="100dp"
             />
     </LinearLayout>
-
 </LinearLayout>

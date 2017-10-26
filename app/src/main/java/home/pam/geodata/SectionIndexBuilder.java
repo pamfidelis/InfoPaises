@@ -2,7 +2,6 @@ package home.pam.geodata;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Objects;
 import java.util.TreeSet;
 
 /**

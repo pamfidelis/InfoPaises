@@ -3,11 +3,8 @@ package home.pam.geodata;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 
 /**
  * Created by Pamela on 10/09/2017.
@@ -36,7 +33,7 @@ public class DetalhePaisActivity extends Activity {
         TextView regiao = (TextView)findViewById(R.id.txt_regiao);
         regiao.setText(pais.getRegiao());
 
-        TextView subregiao = (TextView)findViewById(R.id.txt_subregiao);
+     /*   TextView subregiao = (TextView)findViewById(R.id.txt_subregiao);
         subregiao.setText(pais.getSubRegiao());
 
         TextView demonimo = (TextView)findViewById(R.id.txt_demonimo);
@@ -97,6 +94,6 @@ public class DetalhePaisActivity extends Activity {
         for(int i = 0; i < pais.getFronteiras().size(); i++ ){
             word += pais.getFronteiras().get(i) + "   ";
         }
-        fronteiras.setText(word);
+        fronteiras.setText(word); */
     }
 }

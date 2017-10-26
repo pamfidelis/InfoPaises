@@ -2,12 +2,10 @@ package home.pam.geodata;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONStringer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +15,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by pfidelis on 06/10/17.
+ * Created by Pâmela Fidelis on 06/10/17.
  */
 
 public class InfoPaisNetwork {
@@ -44,11 +42,14 @@ public class InfoPaisNetwork {
                     pais.setArea(0);
                 }
                 pais.setBandeira(item.getString("flag"));
-                pais.setCapital(item.getString("capital"));
                 pais.setNome(item.getString("name"));
+                pais.setCapital(item.getString("capital"));
                 pais.setRegiao(item.getString("region"));
                 pais.setSubRegiao(item.getString("subregion"));
                 pais.setCodigo3(item.getString("alpha3Code"));
+                pais.setDemonimo(item.getString("demonym"));
+                pais.setSubRegiao(item.getString("subregion"));
+
                 try {
                     pais.setGini(item.getDouble("gini"));
                 } catch (Exception e) {
@@ -59,11 +60,8 @@ public class InfoPaisNetwork {
                 } catch (Exception e) {
                     pais.setPopulacao(0);
                 }
-                pais.setDemonimo(item.getString("demonym"));
-                pais.setSubRegiao(item.getString("subregion"));
 
                 JSONArray latlng = item.getJSONArray("latlng");
-
                 try {
                     pais.setLatitude(latlng.getDouble(0));
                 } catch (Exception e) {
@@ -123,7 +121,6 @@ public class InfoPaisNetwork {
                     arrayList.add((String)jArray.get(x));
                 }
                 pais.setFronteiras(arrayList);
-
 
                 paises.add(pais);
             }

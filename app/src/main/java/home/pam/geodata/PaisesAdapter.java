@@ -18,7 +18,6 @@ import java.util.Hashtable;
 public class PaisesAdapter extends BaseAdapter implements SectionIndexer {
 
     private Pais[] paises;
-    private PaisDAO dao;
     private Activity activity;
     Object[] sectionHeaders;
     Hashtable<Integer, Integer> positionForSectionMap;
