@@ -18,10 +18,10 @@ public class PaisesContract {
         public static final String COLUMN_NAME_BANDEIRA = "bandeira";
         public static final String COLUMN_NAME_CODIGO3 = "codigo3";
         public static final String COLUMN_NAME_DEMONIMO = "demonimo";
-        public static final String COLUMN_AREA = "area";
-        public static final String COLUMN_POPULACAO = "populacao";
-        public static final String COLUMN_GINI = "gini";
-        public static final String COLUMN_LATITUDE = "latitude";
-        public static final String COLUMN_LONGITUDE = "longitude";
+        public static final String COLUMN_NAME_AREA = "area";
+        public static final String COLUMN_NAME_POPULACAO = "populacao";
+        public static final String COLUMN_NAME_GINI = "gini";
+        public static final String COLUMN_NAME_LATITUDE = "latitude";
+        public static final String COLUMN_NAME_LONGITUDE = "longitude";
     }
 }

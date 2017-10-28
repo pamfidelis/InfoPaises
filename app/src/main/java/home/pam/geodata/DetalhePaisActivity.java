@@ -3,6 +3,7 @@ package home.pam.geodata;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,13 +34,13 @@ public class DetalhePaisActivity extends Activity {
         TextView regiao = (TextView)findViewById(R.id.txt_regiao);
         regiao.setText(pais.getRegiao());
 
-     /*   TextView subregiao = (TextView)findViewById(R.id.txt_subregiao);
+        TextView subregiao = (TextView)findViewById(R.id.txt_subregiao);
         subregiao.setText(pais.getSubRegiao());
 
         TextView demonimo = (TextView)findViewById(R.id.txt_demonimo);
         demonimo.setText(pais.getDemonimo());
 
-        TextView area = (TextView)findViewById(R.id.txt_area);
+       TextView area = (TextView)findViewById(R.id.txt_area);
         area.setText(String.format("%1$,d km\u00b2", pais.getArea()));
 
         TextView populacao = (TextView)findViewById(R.id.txt_populacao);
@@ -48,13 +49,15 @@ public class DetalhePaisActivity extends Activity {
         TextView gini = (TextView) findViewById(R.id.txt_gini);
         gini.setText(String.format("%.2f", pais.getGini()));
 
+        Log.d("gini", "" + pais.getGini());
+
         TextView latitude = (TextView) findViewById(R.id.txt_latitude);
         latitude.setText(String.format("%.2f", pais.getLatitude()));
 
         TextView longitude = (TextView) findViewById(R.id.txt_longitude);
         longitude.setText(String.format("%.2f", pais.getLongitude()));
 
-        TextView idiomas = (TextView) findViewById(R.id.txt_idiomas);
+       /* TextView idiomas = (TextView) findViewById(R.id.txt_idiomas);
 
         String word = "";
 

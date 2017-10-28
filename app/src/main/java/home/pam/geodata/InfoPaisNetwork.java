@@ -2,6 +2,7 @@ package home.pam.geodata;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,11 +37,7 @@ public class InfoPaisNetwork {
             for(int i = 0; i < vetor.length(); i++){
                 JSONObject item = (JSONObject) vetor.get(i);
                 Pais pais = new Pais();
-                try {
-                    pais.setArea(item.getInt("area"));
-                } catch (Exception e){
-                    pais.setArea(0);
-                }
+
                 pais.setBandeira(item.getString("flag"));
                 pais.setNome(item.getString("name"));
                 pais.setCapital(item.getString("capital"));
@@ -51,14 +48,24 @@ public class InfoPaisNetwork {
                 pais.setSubRegiao(item.getString("subregion"));
 
                 try {
-                    pais.setGini(item.getDouble("gini"));
-                } catch (Exception e) {
-                    pais.setGini(0.0);
+                    pais.setArea(item.getInt("area"));
+                } catch (Exception e){
+                    pais.setArea(0);
                 }
+
                 try {
                     pais.setPopulacao(item.getInt("population"));
                 } catch (Exception e) {
                     pais.setPopulacao(0);
+                }
+
+                try {
+                    pais.setGini(item.getDouble("gini"));
+
+                    Log.d("gini", "" + pais.getGini());
+
+                } catch (Exception e) {
+                    pais.setGini(0.0);
                 }
 
                 JSONArray latlng = item.getJSONArray("latlng");
@@ -85,7 +92,7 @@ public class InfoPaisNetwork {
                 pais.setIdiomas(arrayList);
 
                jArray = item.getJSONArray("timezones");
-               arrayList = new ArrayList<String>();
+               arrayList = new ArrayList<>();
 
                for (int x = 0; x < jArray.length(); x++) {
                     arrayList.add((String)jArray.get(x));
@@ -93,7 +100,7 @@ public class InfoPaisNetwork {
                 pais.setFusos(arrayList);
 
                 jArray = item.getJSONArray("topLevelDomain");
-                arrayList = new ArrayList<String>();
+                arrayList = new ArrayList<>();
 
                 for (int x = 0; x < jArray.length(); x++) {
                     arrayList.add((String)jArray.get(x));
@@ -101,7 +108,7 @@ public class InfoPaisNetwork {
                 pais.setDominios(arrayList);
 
                 jArray = item.getJSONArray("currencies");
-                arrayList = new ArrayList<String>();
+                arrayList = new ArrayList<>();
 
                 for (int x = 0; x < jArray.length(); x++) {
                     jsonObject = jArray.getJSONObject(x);
@@ -115,7 +122,7 @@ public class InfoPaisNetwork {
                 pais.setMoedas(arrayList);
 
                 jArray = item.getJSONArray("borders");
-                arrayList = new ArrayList<String>();
+                arrayList = new ArrayList<>();
 
                 for (int x = 0; x < jArray.length(); x++) {
                     arrayList.add((String)jArray.get(x));

@@ -19,15 +19,17 @@ public class PaisesDbHelper extends SQLiteOpenHelper {
                     PaisesContract.PaisEntry._ID + " INTEGER PRIMARY KEY,"+
                     PaisesContract.PaisEntry.COLUMN_NAME_NOME + " TEXT," +
                     PaisesContract.PaisEntry.COLUMN_NAME_REGIAO + " TEXT," +
-                    //PaisesContract.PaisEntry.COLUMN_NAME_SUBREGIAO + " TEXT," +
+                    PaisesContract.PaisEntry.COLUMN_NAME_SUBREGIAO + " TEXT," +
                     PaisesContract.PaisEntry.COLUMN_NAME_CAPITAL + " TEXT," +
                     PaisesContract.PaisEntry.COLUMN_NAME_BANDEIRA + " TEXT," +
-                    //PaisesContract.PaisEntry.COLUMN_NAME_DEMONIMO + " TEXT," +
-                    PaisesContract.PaisEntry.COLUMN_NAME_CODIGO3 + " TEXT)";
-                   // PaisesContract.PaisEntry.COLUMN_AREA + " INT," +
-                   // PaisesContract.PaisEntry.COLUMN_POPULACAO + " INT," +
-                    //PaisesContract.PaisEntry.COLUMN_LATITUDE + " FLOAT," +
-                   // PaisesContract.PaisEntry.COLUMN_LONGITUDE + " FLOAT)";
+                    PaisesContract.PaisEntry.COLUMN_NAME_CODIGO3 + " TEXT," +
+                    PaisesContract.PaisEntry.COLUMN_NAME_DEMONIMO + " TEXT," +
+                    PaisesContract.PaisEntry.COLUMN_NAME_AREA + " INT, " +
+                    PaisesContract.PaisEntry.COLUMN_NAME_GINI + " REAL," +
+                    PaisesContract.PaisEntry.COLUMN_NAME_POPULACAO + " INT," +
+                    PaisesContract.PaisEntry.COLUMN_NAME_LATITUDE + " REAL," +
+                    PaisesContract.PaisEntry.COLUMN_NAME_LONGITUDE + " REAL)";
+
 
     public static final String SQL_DROP_PAIS =
             "DROP  TABLE IF EXISTS " + PaisesContract.PaisEntry.TABLE_NAME;
