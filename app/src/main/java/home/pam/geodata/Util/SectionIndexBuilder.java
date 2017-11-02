@@ -1,8 +1,10 @@
-package home.pam.geodata;
+package home.pam.geodata.Util;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.TreeSet;
+
+import home.pam.geodata.Model.Pais;
 
 /**
  * Created by Pamela Fidelis on 22/09/2017.

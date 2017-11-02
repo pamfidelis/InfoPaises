@@ -1,9 +1,11 @@
-package home.pam.geodata;
+package home.pam.geodata.Util;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import java.lang.reflect.Field;
+
+import home.pam.geodata.R;
 
 /**
  * Created by Pamela Fidelis on 22/09/2017.

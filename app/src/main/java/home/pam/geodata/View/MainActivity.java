@@ -1,4 +1,4 @@
-package home.pam.geodata;
+package home.pam.geodata.View;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.IOException;
+
+import home.pam.geodata.DAO.PaisesDb;
+import home.pam.geodata.InfoPaisNetwork;
+import home.pam.geodata.Model.Pais;
+import home.pam.geodata.R;
 
 /**
  * Created by Pamela on 10/09/2017.

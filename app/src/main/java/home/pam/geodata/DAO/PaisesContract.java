@@ -1,4 +1,4 @@
-package home.pam.geodata;
+package home.pam.geodata.DAO;
 
 import android.provider.BaseColumns;
 
@@ -24,4 +24,17 @@ public class PaisesContract {
         public static final String COLUMN_NAME_LATITUDE = "latitude";
         public static final String COLUMN_NAME_LONGITUDE = "longitude";
     }
+
+    public static abstract class Language implements BaseColumns {
+        public static final String TABLE_NAME = "idioma";
+        public static final String COLUMN_NAME_IDIOMA= "nm_idioma";
+    }
+
+    public static abstract class PaisLanguage implements BaseColumns {
+        public static final String TABLE_NAME = "pais_idioma";
+        public static final String COLUMN_NAME_PAIS= "id_pais";
+        public static final String COLUMN_NAME_IDIOMA= "id_idioma";
+    }
+
+
 }

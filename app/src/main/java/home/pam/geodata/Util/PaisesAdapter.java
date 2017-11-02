@@ -1,4 +1,4 @@
-package home.pam.geodata;
+package home.pam.geodata.Util;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
@@ -10,6 +10,10 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import java.util.Hashtable;
+
+import home.pam.geodata.Model.Pais;
+import home.pam.geodata.R;
+import home.pam.geodata.View.ViewHolder;
 
 /**
  * Created by Pamela on 16/09/2017.

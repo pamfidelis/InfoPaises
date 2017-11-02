@@ -1,4 +1,4 @@
-package home.pam.geodata;
+package home.pam.geodata.DAO;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,9 +30,26 @@ public class PaisesDbHelper extends SQLiteOpenHelper {
                     PaisesContract.PaisEntry.COLUMN_NAME_LATITUDE + " REAL," +
                     PaisesContract.PaisEntry.COLUMN_NAME_LONGITUDE + " REAL)";
 
+    public static final String SQL_CREATE_IDIOMA =
+            "CREATE TABLE " + PaisesContract.Language.TABLE_NAME + "(" +
+                    PaisesContract.Language._ID + "INTEGER PRIMARY KEY," +
+                    PaisesContract.Language.COLUMN_NAME_IDIOMA + " TEXT)";
+
+    public static final String SQL_CREATE_PAIS_IDIOMA =
+            "CREATE TABLE " + PaisesContract.PaisLanguage.TABLE_NAME + "(" +
+                    PaisesContract.PaisLanguage._ID + " INTEGER PRIMARY KEY,"+
+                    PaisesContract.PaisLanguage.COLUMN_NAME_PAIS + " INT," +
+                    PaisesContract.PaisLanguage.COLUMN_NAME_IDIOMA + " INT)";
+
 
     public static final String SQL_DROP_PAIS =
             "DROP  TABLE IF EXISTS " + PaisesContract.PaisEntry.TABLE_NAME;
+
+    public static final String SQL_DROP_IDIOMA =
+            "DROP  TABLE IF EXISTS " + PaisesContract.Language.TABLE_NAME;
+
+    public static final String SQL_DROP_PAIS_IDIOMA =
+            "DROP  TABLE IF EXISTS " + PaisesContract.PaisLanguage.TABLE_NAME;
 
     // Contexto da aplicação, nome do banco, Cursor factory (resultSet), Versão do banco
     public PaisesDbHelper(Context contexto){
@@ -43,12 +60,19 @@ public class PaisesDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.d("banco", "criou a tabela");
         db.execSQL(SQL_CREATE_PAIS);
+        db.execSQL(SQL_CREATE_IDIOMA);
+        db.execSQL(SQL_CREATE_PAIS_IDIOMA);
+        Log.d("banco", "Pais_idioma");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.d("banco", "criou a tabela");
+        db.execSQL(SQL_DROP_PAIS_IDIOMA);
         db.execSQL(SQL_DROP_PAIS);
+        db.execSQL(SQL_DROP_IDIOMA);
         db.execSQL(SQL_CREATE_PAIS);
+        db.execSQL(SQL_CREATE_IDIOMA);
+        db.execSQL(SQL_CREATE_PAIS_IDIOMA);
     }
 }

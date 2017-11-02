@@ -1,4 +1,4 @@
-package home.pam.geodata;
+package home.pam.geodata.View;
 
 import android.widget.ImageView;
 import android.widget.TextView;

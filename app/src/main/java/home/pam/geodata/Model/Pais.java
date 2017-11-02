@@ -1,4 +1,4 @@
-package home.pam.geodata;
+package home.pam.geodata.Model;
 
 import java.io.Serializable;
 import java.text.Collator;

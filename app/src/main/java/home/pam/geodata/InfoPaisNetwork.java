@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import home.pam.geodata.Model.Pais;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -25,7 +26,7 @@ public class InfoPaisNetwork {
         ArrayList<Pais> paises = new ArrayList<>();
 
         Request request = new Request.Builder()
-                .url(url+regiao)
+                .url(url + regiao)
                 .build();
 
         Response response = client.newCall(request).execute();
@@ -34,7 +35,7 @@ public class InfoPaisNetwork {
 
         try {
             JSONArray vetor = new JSONArray(resultado);
-            for(int i = 0; i < vetor.length(); i++){
+            for (int i = 0; i < vetor.length(); i++) {
                 JSONObject item = (JSONObject) vetor.get(i);
                 Pais pais = new Pais();
 
@@ -49,7 +50,7 @@ public class InfoPaisNetwork {
 
                 try {
                     pais.setArea(item.getInt("area"));
-                } catch (Exception e){
+                } catch (Exception e) {
                     pais.setArea(0);
                 }
 
@@ -61,8 +62,6 @@ public class InfoPaisNetwork {
 
                 try {
                     pais.setGini(item.getDouble("gini"));
-
-                    Log.d("gini", "" + pais.getGini());
 
                 } catch (Exception e) {
                     pais.setGini(0.0);
@@ -80,22 +79,24 @@ public class InfoPaisNetwork {
                     pais.setLongitude(0);
                 }
 
+
                 ArrayList<String> arrayList = new ArrayList<String>();
                 JSONObject jsonObject;
 
                 JSONArray jArray = item.getJSONArray("languages");
 
-                for (int x = 0; x < jArray.length(); x++){
+                for (int x = 0; x < jArray.length(); x++) {
                     jsonObject = jArray.getJSONObject(x);
-                    arrayList.add((String)jsonObject.opt("name"));
+                    arrayList.add((String) jsonObject.opt("name"));
+                    Log.d("idioma", "Idioma " + jsonObject.opt("name").toString() );
                 }
                 pais.setIdiomas(arrayList);
 
-               jArray = item.getJSONArray("timezones");
-               arrayList = new ArrayList<>();
+                jArray = item.getJSONArray("timezones");
+                arrayList = new ArrayList<>();
 
-               for (int x = 0; x < jArray.length(); x++) {
-                    arrayList.add((String)jArray.get(x));
+                for (int x = 0; x < jArray.length(); x++) {
+                    arrayList.add((String) jArray.get(x));
                 }
                 pais.setFusos(arrayList);
 
@@ -103,7 +104,7 @@ public class InfoPaisNetwork {
                 arrayList = new ArrayList<>();
 
                 for (int x = 0; x < jArray.length(); x++) {
-                    arrayList.add((String)jArray.get(x));
+                    arrayList.add((String) jArray.get(x));
                 }
                 pais.setDominios(arrayList);
 
@@ -125,7 +126,7 @@ public class InfoPaisNetwork {
                 arrayList = new ArrayList<>();
 
                 for (int x = 0; x < jArray.length(); x++) {
-                    arrayList.add((String)jArray.get(x));
+                    arrayList.add((String) jArray.get(x));
                 }
                 pais.setFronteiras(arrayList);
 
@@ -139,7 +140,7 @@ public class InfoPaisNetwork {
         return paises.toArray(new Pais[0]);
     }
 
-    public static boolean isConnected(Context context){
+    public static boolean isConnected(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return connectivityManager.getActiveNetworkInfo() != null &&

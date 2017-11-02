@@ -1,11 +1,14 @@
-package home.pam.geodata;
+package home.pam.geodata.View;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import home.pam.geodata.Model.Pais;
+import home.pam.geodata.R;
+import home.pam.geodata.Util.Util;
 
 /**
  * Created by Pamela on 10/09/2017.
@@ -49,24 +52,16 @@ public class DetalhePaisActivity extends Activity {
         TextView gini = (TextView) findViewById(R.id.txt_gini);
         gini.setText(String.format("%.2f", pais.getGini()));
 
-        Log.d("gini", "" + pais.getGini());
-
         TextView latitude = (TextView) findViewById(R.id.txt_latitude);
         latitude.setText(String.format("%.2f", pais.getLatitude()));
 
         TextView longitude = (TextView) findViewById(R.id.txt_longitude);
         longitude.setText(String.format("%.2f", pais.getLongitude()));
 
-       /* TextView idiomas = (TextView) findViewById(R.id.txt_idiomas);
+        TextView idiomas = (TextView) findViewById(R.id.txt_idiomas);
+        idiomas.setText(pais.getIdiomas().toString());
 
-        String word = "";
-
-        for(int i = 0; i < pais.getIdiomas().size(); i++ ){
-            word += pais.getIdiomas().get(i) + "   ";
-        }
-        idiomas.setText(word);
-
-        TextView fuso_horario = (TextView) findViewById(R.id.txt_fusos);
+        /* TextView fuso_horario = (TextView) findViewById(R.id.txt_fusos);
 
         word = "";
 
