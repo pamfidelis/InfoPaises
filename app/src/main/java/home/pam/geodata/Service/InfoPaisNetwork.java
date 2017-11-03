@@ -1,4 +1,4 @@
-package home.pam.geodata;
+package home.pam.geodata.Service;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -88,7 +88,7 @@ public class InfoPaisNetwork {
                 for (int x = 0; x < jArray.length(); x++) {
                     jsonObject = jArray.getJSONObject(x);
                     arrayList.add((String) jsonObject.opt("name"));
-                    Log.d("idioma", "Idioma " + jsonObject.opt("name").toString() );
+                    Log.d("idioma", "Idioma " + jsonObject.opt("name").toString());
                 }
                 pais.setIdiomas(arrayList);
 
@@ -115,9 +115,10 @@ public class InfoPaisNetwork {
                     jsonObject = jArray.getJSONObject(x);
 
                     for (int y = 0; y < jsonObject.length(); y++) {
-                        arrayList.add(jsonObject.getString("code"));
+                        //  arrayList.add(jsonObject.getString("code"));
                         arrayList.add(jsonObject.getString("name"));
-                        arrayList.add(jsonObject.getString("symbol"));
+                        Log.d("moeda", jsonObject.getString("name").toString());
+                        //  arrayList.add(jsonObject.getString("symbol"));
                     }
                 }
                 pais.setMoedas(arrayList);

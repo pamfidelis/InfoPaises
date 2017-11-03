@@ -13,7 +13,6 @@ import java.util.Hashtable;
 
 import home.pam.geodata.Model.Pais;
 import home.pam.geodata.R;
-import home.pam.geodata.View.ViewHolder;
 
 /**
  * Created by Pamela on 16/09/2017.

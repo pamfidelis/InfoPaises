@@ -3,6 +3,7 @@ package home.pam.geodata.View;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -61,22 +62,31 @@ public class DetalhePaisActivity extends Activity {
         TextView idiomas = (TextView) findViewById(R.id.txt_idiomas);
         idiomas.setText(pais.getIdiomas().toString());
 
-        /* TextView fuso_horario = (TextView) findViewById(R.id.txt_fusos);
-
-        word = "";
-
-        for(int i = 0; i < pais.getIdiomas().size(); i++ ){
-            word += pais.getFusos().get(i) + "   ";
-        }
-        fuso_horario.setText(word);
-
         TextView dominios = (TextView) findViewById(R.id.txt_dominio);
-        word = "";
+
+        String word = "";
 
         for(int i = 0; i < pais.getDominios().size(); i++ ){
             word += pais.getDominios().get(i) + "   ";
         }
         dominios.setText(word);
+
+        TextView fuso_horario = (TextView) findViewById(R.id.txt_fusos);
+      /*  word = "";
+
+        for(int i = 0; i <= pais.getIdiomas().size() - 1; i++ ){
+            word += pais.getFusos().get(i) + "   ";
+        } */
+        fuso_horario.setText(pais.getFusos().toString());
+
+        TextView fronteiras = (TextView) findViewById(R.id.txt_fronteiras);
+        word = "";
+
+        for(int i = 0; i < pais.getFronteiras().size(); i++ ){
+            word += pais.getFronteiras().get(i) + "   ";
+            Log.d("fronteira", word);
+        }
+        fronteiras.setText(word);
 
         TextView moeda = (TextView) findViewById(R.id.txt_moeda);
         word = "";
@@ -86,12 +96,5 @@ public class DetalhePaisActivity extends Activity {
         }
         moeda.setText(word);
 
-        TextView fronteiras = (TextView) findViewById(R.id.txt_fronteiras);
-        word = "";
-
-        for(int i = 0; i < pais.getFronteiras().size(); i++ ){
-            word += pais.getFronteiras().get(i) + "   ";
-        }
-        fronteiras.setText(word); */
     }
 }

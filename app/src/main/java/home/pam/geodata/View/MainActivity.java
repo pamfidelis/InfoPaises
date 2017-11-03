@@ -16,7 +16,7 @@ import android.widget.Toast;
 import java.io.IOException;
 
 import home.pam.geodata.DAO.PaisesDb;
-import home.pam.geodata.InfoPaisNetwork;
+import home.pam.geodata.Service.InfoPaisNetwork;
 import home.pam.geodata.Model.Pais;
 import home.pam.geodata.R;
 
