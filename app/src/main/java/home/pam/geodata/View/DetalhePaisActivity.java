@@ -60,23 +60,21 @@ public class DetalhePaisActivity extends Activity {
         longitude.setText(String.format("%.2f", pais.getLongitude()));
 
         TextView idiomas = (TextView) findViewById(R.id.txt_idiomas);
+        String word = "";
+
+        for(int i = 0; i < pais.getIdiomas().size(); i++ ){
+            word += pais.getIdiomas().get(i) + "   ";
+            Log.d("idioma", word);
+        }
+
         idiomas.setText(pais.getIdiomas().toString());
 
         TextView dominios = (TextView) findViewById(R.id.txt_dominio);
 
-        String word = "";
+        Log.d("dominio", pais.getDominios().toString());
+        dominios.setText(pais.getDominios().toString());
 
-        for(int i = 0; i < pais.getDominios().size(); i++ ){
-            word += pais.getDominios().get(i) + "   ";
-        }
-        dominios.setText(word);
-
-        TextView fuso_horario = (TextView) findViewById(R.id.txt_fusos);
-      /*  word = "";
-
-        for(int i = 0; i <= pais.getIdiomas().size() - 1; i++ ){
-            word += pais.getFusos().get(i) + "   ";
-        } */
+       TextView fuso_horario = (TextView) findViewById(R.id.txt_fusos);
         fuso_horario.setText(pais.getFusos().toString());
 
         TextView fronteiras = (TextView) findViewById(R.id.txt_fronteiras);
@@ -95,6 +93,5 @@ public class DetalhePaisActivity extends Activity {
             word += pais.getMoedas().get(i) + "   ";
         }
         moeda.setText(word);
-
     }
 }

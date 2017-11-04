@@ -16,7 +16,7 @@ public class PaisesDbHelper extends SQLiteOpenHelper {
 
     public static final String SQL_CREATE_PAIS =
             "CREATE TABLE " + PaisesContract.PaisEntry.TABLE_NAME + "(" +
-                    PaisesContract.PaisEntry._ID + " INTEGER PRIMARY KEY,"+
+                    PaisesContract.PaisEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                     PaisesContract.PaisEntry.COLUMN_NAME_NOME + " TEXT," +
                     PaisesContract.PaisEntry.COLUMN_NAME_REGIAO + " TEXT," +
                     PaisesContract.PaisEntry.COLUMN_NAME_SUBREGIAO + " TEXT," +
@@ -32,57 +32,57 @@ public class PaisesDbHelper extends SQLiteOpenHelper {
 
     public static final String SQL_CREATE_IDIOMA =
             "CREATE TABLE " + PaisesContract.Language.TABLE_NAME + "(" +
-                    PaisesContract.Language._ID + "INTEGER PRIMARY KEY," +
+                    PaisesContract.Language._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     PaisesContract.Language.COLUMN_NAME_IDIOMA + " TEXT)";
 
     public static final String SQL_CREATE_PAIS_IDIOMA =
             "CREATE TABLE " + PaisesContract.PaisLanguage.TABLE_NAME + "(" +
-                    PaisesContract.PaisLanguage._ID + " INTEGER PRIMARY KEY,"+
+                    PaisesContract.PaisLanguage._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                     PaisesContract.PaisLanguage.COLUMN_NAME_PAIS + " INT," +
                     PaisesContract.PaisLanguage.COLUMN_NAME_IDIOMA + " INT)";
 
     public static final String SQL_CREATE_MOEDA =
             "CREATE TABLE " + PaisesContract.Moeda.TABLE_NAME + "(" +
-                    PaisesContract.Moeda._ID + "INTEGER PRIMARY KEY," +
+                    PaisesContract.Moeda._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     PaisesContract.Moeda.COLUMN_NAME_MOEDA + " TEXT," +
                     PaisesContract.Moeda.COLUMN_NAME_CODE + " TEXT)";
 
     public static final String SQL_CREATE_PAIS_MOEDA =
             "CREATE TABLE " + PaisesContract.PaisMoeda.TABLE_NAME + "(" +
-                    PaisesContract.PaisMoeda._ID + " INTEGER PRIMARY KEY,"+
+                    PaisesContract.PaisMoeda._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                     PaisesContract.PaisMoeda.COLUMN_NAME_PAIS + " INT," +
                     PaisesContract.PaisMoeda.COLUMN_NAME_MOEDA + " INT)";
 
     public static final String SQL_CREATE_DOMINIO =
             "CREATE TABLE " + PaisesContract.Dominio.TABLE_NAME + "(" +
-                    PaisesContract.Dominio._ID + "INTEGER PRIMARY KEY," +
+                    PaisesContract.Dominio._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     PaisesContract.Dominio.COLUMN_NAME_DOMINIO + " TEXT)";
 
     public static final String SQL_CREATE_PAIS_DOMINIO =
             "CREATE TABLE " + PaisesContract.PaisDominio.TABLE_NAME + "(" +
-                    PaisesContract.PaisDominio._ID + " INTEGER PRIMARY KEY,"+
+                    PaisesContract.PaisDominio._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                     PaisesContract.PaisDominio.COLUMN_NAME_PAIS + " INT," +
                     PaisesContract.PaisDominio.COLUMN_NAME_DOMINIO + " INT)";
 
     public static final String SQL_CREATE_FUSO =
             "CREATE TABLE " + PaisesContract.Fuso.TABLE_NAME + "(" +
-                    PaisesContract.Fuso._ID + " INTEGER PRIMARY KEY," +
+                    PaisesContract.Fuso._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     PaisesContract.Fuso.COLUMN_NAME_FUSO + " TEXT)";
 
     public static final String SQL_CREATE_PAIS_FUSO =
             "CREATE TABLE " + PaisesContract.PaisFuso.TABLE_NAME + "(" +
-                    PaisesContract.PaisFuso._ID + " INTEGER PRIMARY KEY,"+
+                    PaisesContract.PaisFuso._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                     PaisesContract.PaisFuso.COLUMN_NAME_PAIS + " INT," +
                     PaisesContract.PaisFuso.COLUMN_NAME_FUSO + " INT)";
 
     public static final String SQL_CREATE_FRONTEIRA =
             "CREATE TABLE " + PaisesContract.Fronteira.TABLE_NAME + "(" +
-                    PaisesContract.Fronteira._ID + " INTEGER PRIMARY KEY," +
+                    PaisesContract.Fronteira._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     PaisesContract.Fronteira.COLUMN_NAME_FRONTEIRA + " TEXT)";
 
     public static final String SQL_CREATE_PAIS_FRONTEIRA =
             "CREATE TABLE " + PaisesContract.PaisFronteira.TABLE_NAME + "(" +
-                    PaisesContract.PaisFronteira._ID + " INTEGER PRIMARY KEY,"+
+                    PaisesContract.PaisFronteira._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                     PaisesContract.PaisFronteira.COLUMN_NAME_PAIS + " INT," +
                     PaisesContract.PaisFronteira.COLUMN_NAME_FRONTEIRA + " INT)";
 

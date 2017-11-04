@@ -16,28 +16,20 @@ import home.pam.geodata.Model.Pais;
 
 public class PaisesDb {
     PaisesDbHelper dbHelper;
+    SQLiteDatabase db;
 
     public PaisesDb(Context contexto) {
         dbHelper = new PaisesDbHelper(contexto);
     }
 
     public void inserirPaises(Pais[] paises) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db = dbHelper.getWritableDatabase();
 
-        /*
-         * melhorar o codigo verificando a regiao que se quer inserir
-         * e as regioes existentes na tabela antes de decidir o que
-         * deletar
-         */
-        db.delete(PaisesContract.PaisLanguage.TABLE_NAME, null, null);
-        db.delete(PaisesContract.PaisEntry.TABLE_NAME, null, null);
-        db.delete(PaisesContract.Language.TABLE_NAME, null, null);
+        deletarTabelas();
 
         for (Pais pais : paises) {
             ContentValues values = new ContentValues();
-            int size_array;
-            long[] componente_id;
-            int count;
+
             ArrayList<String> arrayList;
 
             values.put(PaisesContract.PaisEntry.COLUMN_NAME_NOME, pais.getNome());
@@ -54,214 +46,240 @@ public class PaisesDb {
             values.put(PaisesContract.PaisEntry.COLUMN_NAME_LONGITUDE, pais.getLongitude());
 
             long id_pais = db.insert(PaisesContract.PaisEntry.TABLE_NAME, null, values);
-
-            ContentValues values_dominio = new ContentValues();
-            ContentValues values_pais_dominio = new ContentValues();
-
-            ContentValues values_fronteira = new ContentValues();
-            ContentValues values_pais_fronteira = new ContentValues();
-
-            ContentValues values_fuso = new ContentValues();
-            ContentValues values_pais_fuso = new ContentValues();
-
-            ContentValues values_moeda = new ContentValues();
-            ContentValues values_pais_moeda = new ContentValues();
-
+            Log.d("pais", "ID --------------" + id_pais);
             arrayList = pais.getIdiomas();
 
-            size_array = arrayList.size() - 1;
+            inserirIdiomas(arrayList, id_pais);
 
-            componente_id = new long[size_array + 1];
-            Log.d("idioma", "Tamanho do vetor de idiomas " + componente_id.length);
-            count = 0;
+            arrayList = pais.getDominios();
+            inserirDominios(arrayList, id_pais);
 
-            db.beginTransaction();
-            try {
-                Log.d("idioma", "tamanho do while: " + size_array);
-                /* ---------------------- INSERINDO OS IDIOMAS NO BANCO ---------------------- */
-                values = new ContentValues();
-                while (count <= size_array) {
-                    Log.d("idioma", "I: " + count);
-                    Log.d("idioma", "Tamanho do vetor de idiomas " + componente_id.length);
-                    values.put(PaisesContract.Language.COLUMN_NAME_IDIOMA, arrayList.get(count));
-                    componente_id[count] = db.insert(PaisesContract.Language.TABLE_NAME, null, values);
-                    Log.d("idioma", "Está inserindo o idioma: " + componente_id[count]);
-                    count++;
-                }
-                values = new ContentValues();
-                count = 0;
-                while (count <= size_array) {
-                    Log.d("idioma", "I: " + count);
-                    Log.d("idioma", "ID: " + componente_id[count]);
-                    Log.d("idioma", "Pais: " + id_pais);
+            arrayList = pais.getFronteiras();
+            inserirFronteiras(arrayList, id_pais);
 
-                    Log.d("idioma", PaisesContract.PaisLanguage.COLUMN_NAME_PAIS);
+            arrayList = pais.getFusos();
+            inserirFusos(arrayList, id_pais);
 
-                    values.put(PaisesContract.PaisLanguage.COLUMN_NAME_PAIS, id_pais);
-                    values.put(PaisesContract.PaisLanguage.COLUMN_NAME_IDIOMA, componente_id[count]);
-
-                    Log.d("idioma", "Pais: " + values.toString());
-
-                    db.insert(PaisesContract.PaisLanguage.TABLE_NAME, null, values);
-                    count++;
-                }
-
-                /* ---------------------- INSERINDO OS DOMINIOS NO BANCO ---------------------- */
-
-                arrayList = pais.getDominios();
-                size_array = arrayList.size() - 1;
-                componente_id = new long[size_array + 1];
-                Log.d("dominio", "Tamanho do vetor de dominios " + componente_id.length);
-                count = 0;
-
-                values = new ContentValues();
-                while (count <= size_array) {
-                    Log.d("Dominio", "I: " + count);
-                    Log.d("Dominio", "Tamanho do vetor de dominio " + componente_id.length);
-                    values.put(PaisesContract.Dominio.COLUMN_NAME_DOMINIO, arrayList.get(count));
-                    componente_id[count] = db.insert(PaisesContract.Dominio.TABLE_NAME, null, values);
-                    Log.d("idioma", "Está inserindo o dominio: " + componente_id[count]);
-                    count++;
-                }
-
-                values = new ContentValues();
-                count = 0;
-                while (count <= size_array) {
-                    Log.d("dominio", "I: " + count);
-                    Log.d("dominio", "ID: " + componente_id[count]);
-                    Log.d("dominio", "Pais: " + id_pais);
-
-                    Log.d("dominio", PaisesContract.PaisLanguage.COLUMN_NAME_PAIS);
-
-                    values.put(PaisesContract.PaisDominio.COLUMN_NAME_PAIS, id_pais);
-                    values.put(PaisesContract.PaisDominio.COLUMN_NAME_DOMINIO, componente_id[count]);
-
-                    Log.d("dominio", "Pais: " + values.toString());
-
-                    db.insert(PaisesContract.PaisDominio.TABLE_NAME, null, values);
-                    count++;
-                }
-
-                /* ---------------------- INSERINDO OS FUSOS NO BANCO ---------------------- */
-
-                arrayList = pais.getFusos();
-                size_array = arrayList.size() - 1;
-                componente_id = new long[size_array + 1];
-                Log.d("fuso", "Tamanho do vetor de dominios " + componente_id.length);
-                count = 0;
-
-                values = new ContentValues();
-                while (count <= size_array) {
-                    Log.d("fuso", "I: " + count);
-                    Log.d("fuso", "Tamanho do vetor de fuso " + componente_id.length);
-                    values.put(PaisesContract.Fuso.COLUMN_NAME_FUSO, arrayList.get(count));
-                    componente_id[count] = db.insert(PaisesContract.Fuso.TABLE_NAME, null, values);
-                    Log.d("fuso", "Está inserindo o fuso: " + componente_id[count]);
-                    count++;
-                }
-
-                values = new ContentValues();
-                count = 0;
-                while (count <= size_array) {
-                    Log.d("fuso", "I: " + count);
-                    Log.d("fuso", "ID: " + componente_id[count]);
-                    Log.d("fuso", "Pais: " + id_pais);
-
-                    Log.d("fuso", PaisesContract.PaisFuso.COLUMN_NAME_PAIS);
-
-                    values.put(PaisesContract.PaisFuso.COLUMN_NAME_PAIS, id_pais);
-                    values.put(PaisesContract.PaisFuso.COLUMN_NAME_FUSO, componente_id[count]);
-
-                    Log.d("fuso", "Pais: " + values.toString());
-
-                    db.insert(PaisesContract.PaisFuso.TABLE_NAME, null, values);
-                    count++;
-                }
-
-                /* ---------------------- INSERINDO AS FRONTEIRAS NO BANCO ---------------------- */
-
-                arrayList = pais.getFronteiras();
-                size_array = arrayList.size() - 1;
-                componente_id = new long[size_array + 1];
-                // Log.d("fronteira", "Tamanho do vetor de dominios " + componente_id.length);
-
-                count = 0;
-                values = new ContentValues();
-                while (count <= size_array) {
-                   /* Log.d("fronteira", "I: " + count); */
-                    values.put(PaisesContract.Fronteira.COLUMN_NAME_FRONTEIRA, arrayList.get(count));
-                    componente_id[count] = db.insert(PaisesContract.Fronteira.TABLE_NAME, null, values);
-                    // Log.d("fronteira", "Está inserindo a fronteira: " + componente_id[count]);
-                    count++;
-                }
-
-                values = new ContentValues();
-                count = 0;
-                while (count <= size_array) {
-                    /* Log.d("fronteira", "I: " + count);
-                    Log.d("fronteira", "ID: " + componente_id[count]);
-                    Log.d("fronteira", "Pais: " + id_pais);
-
-                    Log.d("fronteira", PaisesContract.PaisFronteira.COLUMN_NAME_PAIS); */
-
-                    values.put(PaisesContract.PaisFronteira.COLUMN_NAME_PAIS, id_pais);
-                    values.put(PaisesContract.PaisFronteira.COLUMN_NAME_FRONTEIRA, componente_id[count]);
-
-                    db.insert(PaisesContract.PaisFronteira.TABLE_NAME, null, values);
-
-                    //Log.d("fronteira", "inseriu");
-                    count++;
-                }
-
-                /* ---------------------- INSERINDO AS MOEDAS NO BANCO ---------------------- */
-
-                arrayList = pais.getMoedas();
-                size_array = arrayList.size() - 1;
-                componente_id = new long[size_array + 1];
-                Log.d("moeda", "Tamanho do vetor de moedas " + componente_id.length);
-
-                count = 0;
-                values = new ContentValues();
-                while (count <= size_array) {
-                   Log.d("moeda", "I: " + count);
-                    values.put(PaisesContract.Moeda.COLUMN_NAME_MOEDA, arrayList.get(count));
-                    componente_id[count] = db.insert(PaisesContract.Moeda.TABLE_NAME, null, values);
-                    Log.d("moeda", "Está inserindo a moeda: " + componente_id[count]);
-                    count++;
-                }
-
-                values = new ContentValues();
-                count = 0;
-                while (count <= size_array) {
-                    Log.d("moeda", "I: " + count);
-                    Log.d("moeda", "ID: " + componente_id[count]);
-                    Log.d("moeda", "Pais: " + id_pais);
-
-                    Log.d("moeda", PaisesContract.PaisMoeda.COLUMN_NAME_PAIS);
-
-                    values.put(PaisesContract.PaisMoeda.COLUMN_NAME_PAIS, id_pais);
-                    values.put(PaisesContract.PaisMoeda.COLUMN_NAME_MOEDA, componente_id[count]);
-
-                    db.insert(PaisesContract.PaisMoeda.TABLE_NAME, null, values);
-
-                    Log.d("moeda", "inseriu");
-                    count++;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d("banco", "Deu errado");
-            } finally {
-                Log.d("banco", "Deu certo");
-                db.endTransaction();
-            }
+            arrayList = pais.getMoedas();
+            inserirMoedas(arrayList, id_pais);
         }
-        Log.d("banco", "Inseriu os dados  na tabela");
+    }
+
+    public void inserirIdiomas(ArrayList<String> idiomas, long id_pais) {
+        db = dbHelper.getReadableDatabase();
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+
+            for (String idioma : idiomas) {
+                values.put(PaisesContract.Language.COLUMN_NAME_IDIOMA, idioma);
+                long id_idioma = db.insert(PaisesContract.Language.TABLE_NAME, null, values);
+
+                inserirPaisIdiomas(id_pais, id_idioma);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("banco", "Deu errado idioma");
+        } finally {
+            Log.d("banco", "Deu certo idioma");
+            db.endTransaction();
+        }
+    }
+
+    public void inserirPaisIdiomas(long id_pais, long id_idioma) {
+        db = dbHelper.getReadableDatabase();
+
+        Log.d("id", "----Inserir Idioma " + id_idioma);
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+
+            values.put(PaisesContract.PaisLanguage.COLUMN_NAME_PAIS, id_pais);
+            values.put(PaisesContract.PaisLanguage.COLUMN_NAME_IDIOMA, id_idioma);
+            db.insert(PaisesContract.PaisLanguage.TABLE_NAME, null, values);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("banco", "Deu errado Idioma Pais");
+        } finally {
+            Log.d("banco", "Deu certo Idioma Pais");
+            db.endTransaction();
+        }
+    }
+
+    public void inserirDominios(ArrayList<String> dominios, long id_pais) {
+        db = dbHelper.getReadableDatabase();
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+
+            for (String dominio : dominios) {
+                values.put(PaisesContract.Dominio.COLUMN_NAME_DOMINIO, dominio);
+                long id_dominio = db.insert(PaisesContract.Dominio.TABLE_NAME, null, values);
+
+                inserirPaisDominios(id_pais, id_dominio);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("banco", "Deu errado dominio");
+        } finally {
+            Log.d("banco", "Deu certo dominio");
+            db.endTransaction();
+        }
+    }
+
+    public void inserirPaisDominios(long id_pais, long id_dominio) {
+        db = dbHelper.getReadableDatabase();
+        Log.d("id", "----Inserir Dominio " + id_dominio);
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+
+            values.put(PaisesContract.PaisDominio.COLUMN_NAME_PAIS, id_pais);
+            values.put(PaisesContract.PaisDominio.COLUMN_NAME_DOMINIO, id_dominio);
+            db.insert(PaisesContract.PaisDominio.TABLE_NAME, null, values);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("banco", "Deu errado Dominio Pais");
+        } finally {
+            Log.d("banco", "Deu certo Dominio Pais");
+            db.endTransaction();
+        }
+    }
+
+    public void inserirFronteiras(ArrayList<String> fronteiras, long id_pais) {
+        db = dbHelper.getReadableDatabase();
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+
+            for (String fronteira : fronteiras) {
+                values.put(PaisesContract.Fronteira.COLUMN_NAME_FRONTEIRA, fronteira);
+                long id_fronteira = db.insert(PaisesContract.Fronteira.TABLE_NAME, null, values);
+
+                inserirPaisFronteiras(id_pais, id_fronteira);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("banco", "Deu errado fronteira");
+        } finally {
+            Log.d("banco", "Deu certo fronteira");
+            db.endTransaction();
+        }
+    }
+
+    public void inserirPaisFronteiras(long id_pais, long id_fronteira) {
+        db = dbHelper.getReadableDatabase();
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+
+            values.put(PaisesContract.PaisFronteira.COLUMN_NAME_PAIS, id_pais);
+            values.put(PaisesContract.PaisFronteira.COLUMN_NAME_FRONTEIRA, id_fronteira);
+            db.insert(PaisesContract.PaisFronteira.TABLE_NAME, null, values);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("banco", "Deu errado Fronteira Pais");
+        } finally {
+            Log.d("banco", "Deu certo Fronteira Pais");
+            db.endTransaction();
+        }
+    }
+
+    public void inserirFusos(ArrayList<String> fusos, long id_pais) {
+        db = dbHelper.getReadableDatabase();
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+
+            for (String fuso : fusos) {
+                values.put(PaisesContract.Fuso.COLUMN_NAME_FUSO, fuso);
+                long id_fuso = db.insert(PaisesContract.Fuso.TABLE_NAME, null, values);
+
+                inserirPaisFusos(id_pais, id_fuso);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("banco", "Deu errado fuso");
+        } finally {
+            Log.d("banco", "Deu certo fuso");
+            db.endTransaction();
+        }
+    }
+
+    public void inserirPaisFusos(long id_pais, long id_fuso) {
+        db = dbHelper.getReadableDatabase();
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+
+            values.put(PaisesContract.PaisFuso.COLUMN_NAME_PAIS, id_pais);
+            values.put(PaisesContract.PaisFuso.COLUMN_NAME_FUSO, id_fuso);
+            db.insert(PaisesContract.PaisFuso.TABLE_NAME, null, values);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("banco", "Deu errado Fuso Pais");
+        } finally {
+            Log.d("banco", "Deu certo Fuso Pais");
+            db.endTransaction();
+        }
+    }
+
+    public void inserirMoedas(ArrayList<String> moedas, long id_pais) {
+        db = dbHelper.getReadableDatabase();
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+
+            for (String moeda : moedas) {
+                values.put(PaisesContract.Moeda.COLUMN_NAME_MOEDA, moeda);
+                long id_moeda = db.insert(PaisesContract.Moeda.TABLE_NAME, null, values);
+
+                inserirPaisMoedas(id_pais, id_moeda);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("banco", "Deu errado moeda");
+        } finally {
+            Log.d("banco", "Deu certo moeda");
+            db.endTransaction();
+        }
+    }
+
+    public void inserirPaisMoedas(long id_pais, long id_moeda) {
+        db = dbHelper.getReadableDatabase();
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+
+            values.put(PaisesContract.PaisMoeda.COLUMN_NAME_PAIS, id_pais);
+            values.put(PaisesContract.PaisMoeda.COLUMN_NAME_MOEDA, id_moeda);
+            db.insert(PaisesContract.PaisMoeda.TABLE_NAME, null, values);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("banco", "Deu errado Fuso Pais");
+        } finally {
+            Log.d("banco", "Deu certo Fuso Pais");
+            db.endTransaction();
+        }
     }
 
     public Pais[] selecionarPaises() {
         ArrayList<Pais> paises = new ArrayList<>();
 
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        db = dbHelper.getReadableDatabase();
 
         String[] colunas = {PaisesContract.PaisEntry.COLUMN_NAME_NOME,
                 PaisesContract.PaisEntry.COLUMN_NAME_REGIAO,
@@ -274,7 +292,8 @@ public class PaisesDb {
                 PaisesContract.PaisEntry.COLUMN_NAME_POPULACAO,
                 PaisesContract.PaisEntry.COLUMN_NAME_GINI,
                 PaisesContract.PaisEntry.COLUMN_NAME_LATITUDE,
-                PaisesContract.PaisEntry.COLUMN_NAME_LONGITUDE};
+                PaisesContract.PaisEntry.COLUMN_NAME_LONGITUDE,
+                PaisesContract.PaisEntry._ID};
 
         String ordem = PaisesContract.PaisEntry.COLUMN_NAME_NOME;
 
@@ -295,8 +314,19 @@ public class PaisesDb {
             pais.setLatitude(c.getDouble(c.getColumnIndex(PaisesContract.PaisEntry.COLUMN_NAME_LATITUDE)));
             pais.setLongitude(c.getDouble(c.getColumnIndex(PaisesContract.PaisEntry.COLUMN_NAME_LONGITUDE)));
 
+            Log.d("pais", "Inicio do cursor");
+            int id_pais = c.getInt(c.getColumnIndex(PaisesContract.PaisEntry._ID));
+            Log.d("pais", "ID DO PAIS " + id_pais);
+
+            ArrayList<String> lista = selecionarIdioma(id_pais);
+            pais.setIdiomas(lista);
+
+            ArrayList<String> dominios = selecionarDominio(id_pais);
+            pais.setDominios(lista);
+
             paises.add(pais);
         }
+
         Log.d("banco", "Buscou os dados");
         c.close();
         if (paises.size() > 0) {
@@ -304,5 +334,147 @@ public class PaisesDb {
         } else {
             return new Pais[0];
         }
+    }
+
+    public ArrayList<String> selecionarIdioma(int id) {
+        ArrayList<String> idiomas = new ArrayList<>();
+        Log.d("pais", "entrou");
+        db = dbHelper.getReadableDatabase();
+
+        String query = "SELECT " +
+                "l." + PaisesContract.Language.COLUMN_NAME_IDIOMA +
+                " FROM " + PaisesContract.PaisEntry.TABLE_NAME + " p " +
+                " JOIN " + PaisesContract.PaisLanguage.TABLE_NAME + " pl " +
+                " ON " + " pl." + PaisesContract.PaisLanguage._ID + " = " + " p." + PaisesContract.PaisEntry._ID +
+                " JOIN " + PaisesContract.Language.TABLE_NAME + " l " +
+                " ON " + " pl." + PaisesContract.PaisLanguage.COLUMN_NAME_IDIOMA + " = " + " l." + PaisesContract.Language._ID +
+                " WHERE " + " p." + PaisesContract.PaisEntry._ID + " = " + id;
+
+
+        Cursor c = db.rawQuery(query, null);
+        Log.d("pais", "rodou a query");
+        while (c.moveToNext()) {
+            Log.d("idiomas", "aqui------------------------------");
+            idiomas.add(c.getString(c.getColumnIndex(PaisesContract.Language.COLUMN_NAME_IDIOMA)));
+            Log.d("idiomas", idiomas.toString());
+        }
+        return idiomas;
+    }
+
+    public ArrayList<String> selecionarDominio(int id) {
+        ArrayList<String> dominios = new ArrayList<>();
+        Log.d("pais", "entrou");
+        db = dbHelper.getReadableDatabase();
+
+        String query = "SELECT " +
+                "d." + PaisesContract.Dominio.COLUMN_NAME_DOMINIO +
+                " FROM " + PaisesContract.PaisEntry.TABLE_NAME + " p " +
+                " JOIN " + PaisesContract.PaisDominio.TABLE_NAME + " pd " +
+                " ON " + " pd." + PaisesContract.PaisDominio._ID + " = " + " p." + PaisesContract.PaisEntry._ID +
+                " JOIN " + PaisesContract.Dominio.TABLE_NAME + " d " +
+                " ON " + " pd." + PaisesContract.PaisDominio.COLUMN_NAME_DOMINIO + " = " + " d." + PaisesContract.Dominio._ID +
+                " WHERE " + " p." + PaisesContract.PaisEntry._ID + " = " + id;
+
+        Log.d("query", query);
+        Cursor c = db.rawQuery(query, null);
+        Log.d("pais", "rodou a query");
+        while (c.moveToNext()) {
+            Log.d("dominio", "Esses são os domínios");
+            dominios.add(c.getString(c.getColumnIndex(PaisesContract.Dominio.COLUMN_NAME_DOMINIO)));
+            Log.d("dominio", "Esses são os domínios" + dominios.toString());
+        }
+        return dominios;
+    }
+
+    public ArrayList<String> selecionarFronteira(int id) {
+        ArrayList<String> fronteiras = new ArrayList<>();
+        Log.d("pais", "entrou");
+        db = dbHelper.getReadableDatabase();
+
+        String query = "SELECT " +
+                "f." + PaisesContract.Fronteira.COLUMN_NAME_FRONTEIRA +
+                " FROM " + PaisesContract.PaisEntry.TABLE_NAME + " p " +
+                " JOIN " + PaisesContract.PaisFronteira.TABLE_NAME + " pf " +
+                " ON " + " pf." + PaisesContract.PaisFronteira._ID + " = " + " p." + PaisesContract.PaisEntry._ID +
+                " JOIN " + PaisesContract.Fronteira.TABLE_NAME + " f " +
+                " ON " + " pf." + PaisesContract.PaisFronteira.COLUMN_NAME_FRONTEIRA + " = " + " f." + PaisesContract.Fronteira._ID +
+                " WHERE " + " p." + PaisesContract.PaisEntry._ID + " = " + id;
+
+        Log.d("query", query);
+        Cursor c = db.rawQuery(query, null);
+        Log.d("pais", "rodou a query");
+        while (c.moveToNext()) {
+            Log.d("dominio", "Esses são as fronteiras");
+            fronteiras.add(c.getString(c.getColumnIndex(PaisesContract.Fronteira.COLUMN_NAME_FRONTEIRA)));
+            Log.d("dominio", "Esses são as fronteiras" + fronteiras.toString());
+        }
+        return fronteiras;
+    }
+
+    public ArrayList<String> selecionarFusos(int id) {
+        ArrayList<String> fusos = new ArrayList<>();
+        Log.d("pais", "entrou");
+        db = dbHelper.getReadableDatabase();
+
+        String query = "SELECT " +
+                "f." + PaisesContract.Fuso.COLUMN_NAME_FUSO +
+                " FROM " + PaisesContract.PaisEntry.TABLE_NAME + " p " +
+                " JOIN " + PaisesContract.PaisFuso.TABLE_NAME + " pf " +
+                " ON " + " pf." + PaisesContract.PaisFuso._ID + " = " + " p." + PaisesContract.PaisEntry._ID +
+                " JOIN " + PaisesContract.Fuso.TABLE_NAME + " f " +
+                " ON " + " pf." + PaisesContract.PaisFuso.COLUMN_NAME_FUSO+ " = " + " f." + PaisesContract.Fuso._ID +
+                " WHERE " + " p." + PaisesContract.PaisEntry._ID + " = " + id;
+
+        Log.d("query", query);
+        Cursor c = db.rawQuery(query, null);
+        Log.d("pais", "rodou a query");
+        while (c.moveToNext()) {
+            Log.d("dominio", "Esses são os fusos");
+            fusos.add(c.getString(c.getColumnIndex(PaisesContract.Fuso.COLUMN_NAME_FUSO)));
+            Log.d("dominio", "Esses são os fusos" + fusos.toString());
+        }
+        return fusos;
+    }
+
+    public ArrayList<String> selecionarMoedas(int id) {
+        ArrayList<String> moedas = new ArrayList<>();
+        Log.d("pais", "entrou");
+        db = dbHelper.getReadableDatabase();
+
+        String query = "SELECT " +
+                "m." + PaisesContract.Moeda.COLUMN_NAME_MOEDA +
+                " FROM " + PaisesContract.PaisEntry.TABLE_NAME + " p " +
+                " JOIN " + PaisesContract.PaisMoeda.TABLE_NAME + " pm " +
+                " ON " + " pm." + PaisesContract.PaisMoeda._ID + " = " + " p." + PaisesContract.PaisEntry._ID +
+                " JOIN " + PaisesContract.Moeda.TABLE_NAME + " m " +
+                " ON " + " pm." + PaisesContract.PaisMoeda.COLUMN_NAME_MOEDA + " = " + " m." + PaisesContract.Moeda._ID +
+                " WHERE " + " p." + PaisesContract.PaisEntry._ID + " = " + id;
+
+        Log.d("query", query);
+        Cursor c = db.rawQuery(query, null);
+        Log.d("pais", "rodou a query");
+        while (c.moveToNext()) {
+            Log.d("banco", "Essas são os moedas");
+            moedas.add(c.getString(c.getColumnIndex(PaisesContract.Moeda.COLUMN_NAME_MOEDA)));
+            Log.d("banco", "Essas são os moedas" + moedas.toString());
+        }
+        return moedas;
+    }
+
+    /* Melhor o código */
+    public void deletarTabelas() {
+        db = dbHelper.getWritableDatabase();
+
+        db.delete(PaisesContract.PaisDominio.TABLE_NAME, null, null);
+        db.delete(PaisesContract.PaisMoeda.TABLE_NAME, null, null);
+        db.delete(PaisesContract.PaisLanguage.TABLE_NAME, null, null);
+        db.delete(PaisesContract.PaisFuso.TABLE_NAME, null, null);
+        db.delete(PaisesContract.PaisFronteira.TABLE_NAME, null, null);
+        db.delete(PaisesContract.PaisEntry.TABLE_NAME, null, null);
+        db.delete(PaisesContract.Language.TABLE_NAME, null, null);
+        db.delete(PaisesContract.Moeda.TABLE_NAME, null, null);
+        db.delete(PaisesContract.Dominio.TABLE_NAME, null, null);
+        db.delete(PaisesContract.Fronteira.TABLE_NAME, null, null);
+        db.delete(PaisesContract.Fuso.TABLE_NAME, null, null);
     }
 }
